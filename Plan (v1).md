@@ -1,6 +1,4 @@
-# Rii-Sports
-
-# <><><><><><><><><><>
+# **Rii-Sports**
 
 ## Description
 The mission of this project is to create a port of Wii Sports for use on modern systems which can be played with a valid game file.
@@ -48,3 +46,4 @@ Outline how the project addresses the needs of the customer, including any speci
 - [ ] Task B
 
 ## Acknowledgements
+[OGWS Github Repo for Wii Sports start point](https://github.com/kiwi515/ogws)
