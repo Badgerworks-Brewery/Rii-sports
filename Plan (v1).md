@@ -32,19 +32,19 @@ Outline how the project addresses the needs of the customer, including any speci
 ## Project Phase Breakdown
 
 ### Phase 1
-- <input type="checkbox" disabled /> Task A
-- <input type="checkbox" disabled /> Task B
+- [x] Task A (checkboxes have to be manually checked off)
+- [ ] Task B
 
 ### Phase 2
-- <input type="checkbox" disabled /> Task A
-- <input type="checkbox" disabled /> Task B
+- [ ] Task A
+- [ ] Task B
 
 ### Phase 3
-- <input type="checkbox" disabled /> Task A
-- <input type="checkbox" disabled /> Task B
+- [ ] Task A
+- [ ] Task B
 
 ### Phase X
-- <input type="checkbox" disabled /> Task A
-- <input type="checkbox" disabled /> Task B
+- [ ] Task A
+- [ ] Task B
 
 ## Acknowledgements
