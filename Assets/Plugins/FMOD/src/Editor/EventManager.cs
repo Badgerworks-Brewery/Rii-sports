@@ -19,8 +19,7 @@ namespace FMODUnity
         private const string AssetsFolderName = "Assets";
 
         private const string CacheAssetName = "FMODStudioCache";
-        public static string CacheAssetFullName =>
-            $"Assets/{RuntimeUtils.PluginBasePath}/Cache/Editor/{CacheAssetName}.asset";
+        public static string CacheAssetFullName = EditorUtils.WritableAssetPath(CacheAssetName);
         private static EventCache eventCache;
 
         private const string StringBankExtension = "strings.bank";
@@ -1052,9 +1051,13 @@ namespace FMODUnity
         private static void BuildTargetChanged()
         {
             RefreshBanks();
-            #if UNITY_ANDROID
+#if UNITY_ANDROID
+#if UNITY_2023_1_OR_NEWER
+            Settings.Instance.AndroidUseOBB = PlayerSettings.Android.splitApplicationBinary;
+#else
             Settings.Instance.AndroidUseOBB = PlayerSettings.Android.useAPKExpansionFiles;
-            #endif
+#endif //UNITY_2023_1_OR_NEWER
+#endif //UNITY_ANDROID
         }
 
         private static void OnCacheChange()
