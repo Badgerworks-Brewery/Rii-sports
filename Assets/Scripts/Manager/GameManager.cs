@@ -60,9 +60,11 @@ public class GameManager : MonoBehaviour
 
     private void Update(){
         if(isBowling){
-            if(Application.isEditor)
-                if(Input.GetKeyDown(KeyCode.R))
-                    ResetPins();
+            if(Input.GetKeyDown(KeyCode.R))
+                ResetPins();
+
+            if(Input.GetKeyDown(KeyCode.Escape))
+                SceneManager.LoadScene("MainMenu");
         }
     }
 

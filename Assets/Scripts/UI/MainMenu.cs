@@ -1,15 +1,19 @@
-using TMPro;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class MainMenu : MonoBehaviour
 {
     public GameObject mainMenu;
     public GameObject loadingScreen;
-    public TMP_Text ProgressIndicator;
-    public Image LoadingBar;
+    public TMP_Text percentage;
+    public Image progressBar;
 
     private void Start()
     {
@@ -19,10 +23,9 @@ public class MainMenu : MonoBehaviour
     public void Play(string scene)
     {
         AudioDB.themeMusic.stop(STOP_MODE.IMMEDIATE);
-        SceneManager.LoadScene("Scenes/Tennis");
-        // mainMenu.SetActive(false);
-        // loadingScreen.SetActive(true);
-        // StartCoroutine(Load(scene));
+        mainMenu.SetActive(false);
+        loadingScreen.SetActive(true);
+        StartCoroutine(LoadSceneAsync(scene));
     }
 
     //TODO: settings menu
@@ -36,26 +39,28 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    /*private IEnumerator Load(string scene)
+    private IEnumerator LoadSceneAsync(string address)
     {
-        var operation = SceneManager.LoadSceneAsync(scene);
-        
-        while (!operation.isDone)
+        AsyncOperationHandle<SceneInstance> handle = Addressables.LoadSceneAsync(address, LoadSceneMode.Single);
+
+        while (!handle.IsDone)
         {
-            var progress = Mathf.Clamp01(operation.progress);
-            Debug.Log(progress);
-            LoadingBar.fillAmount = progress;
-            ProgressIndicator.text = progress * 100 / .9f + "%";
+            float progress = handle.PercentComplete;
+            percentage.text = "Loading...";
+            progressBar.fillAmount = progress;
 
             yield return null;
         }
 
-        if (operation.isDone)
-            if (GameObject.Find("LoadingScreen") == true)
-                active = true;
-            else
-                active = false;
-        if (active)
-            loadingScreen.SetActive(false);
-    }*/
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            percentage.text = "Scene loaded successfully!";
+            Debug.Log("Scene loaded successfully!");
+        }
+        else
+        {
+            percentage.text = "Failed to load scene.";
+            Debug.LogError("Failed to load scene.");
+        }
+    }
 }

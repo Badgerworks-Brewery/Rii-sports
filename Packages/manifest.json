@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.crowdin.unity-plugin": "0.7.1",
     "com.unity.addressables": "1.22.2",
     "com.unity.ai.navigation": "1.1.5",
     "com.unity.cinemachine": "2.10.1",
@@ -15,7 +16,6 @@
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
-    "com.unity.modules.assetbundle": "1.0.0",
     "com.unity.modules.audio": "1.0.0",
     "com.unity.modules.cloth": "1.0.0",
     "com.unity.modules.director": "1.0.0",
@@ -43,5 +43,14 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "Crowdin",
+      "url": "https://registry.npmjs.org",
+      "scopes": [
+        "com.crowdin"
+      ]
+    }
+  ]
 }

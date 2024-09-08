@@ -1,0 +1,150 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf9742e6cb374ff095ea3ab535a9052, type: 3}
+  m_Name: CrowdinSettings
+  m_EditorClassIdentifier: 
+  organizationDomain: 
+  token: 9eaac9474c043d0e501731e6b1043e4250f4744c5202e9929e61e66821f83528a71ecedf150f339a
+  projectId: 714875
+  projectIndexInList: 0
+  projectType: 0
+  languageData:
+    sourceLanguage: en
+    targetLanguage: 
+    languageItems:
+    - langType: ro
+      collumPos: 2
+      twoLettersCode: ro
+      locale: ro-RO
+    - langType: fr
+      collumPos: 3
+      twoLettersCode: fr
+      locale: fr-FR
+    - langType: es-ES
+      collumPos: 4
+      twoLettersCode: es
+      locale: es-ES
+    - langType: af
+      collumPos: 5
+      twoLettersCode: af
+      locale: af-ZA
+    - langType: ar
+      collumPos: 6
+      twoLettersCode: ar
+      locale: ar-SA
+    - langType: ca
+      collumPos: 7
+      twoLettersCode: ca
+      locale: ca-ES
+    - langType: cs
+      collumPos: 8
+      twoLettersCode: cs
+      locale: cs-CZ
+    - langType: da
+      collumPos: 9
+      twoLettersCode: da
+      locale: da-DK
+    - langType: de
+      collumPos: 10
+      twoLettersCode: de
+      locale: de-DE
+    - langType: el
+      collumPos: 11
+      twoLettersCode: el
+      locale: el-GR
+    - langType: fi
+      collumPos: 12
+      twoLettersCode: fi
+      locale: fi-FI
+    - langType: he
+      collumPos: 13
+      twoLettersCode: he
+      locale: he-IL
+    - langType: hu
+      collumPos: 14
+      twoLettersCode: hu
+      locale: hu-HU
+    - langType: it
+      collumPos: 15
+      twoLettersCode: it
+      locale: it-IT
+    - langType: ja
+      collumPos: 16
+      twoLettersCode: ja
+      locale: ja-JP
+    - langType: ko
+      collumPos: 17
+      twoLettersCode: ko
+      locale: ko-KR
+    - langType: nl
+      collumPos: 18
+      twoLettersCode: nl
+      locale: nl-NL
+    - langType: no
+      collumPos: 19
+      twoLettersCode: no
+      locale: no-NO
+    - langType: pl
+      collumPos: 20
+      twoLettersCode: pl
+      locale: pl-PL
+    - langType: pt-PT
+      collumPos: 21
+      twoLettersCode: pt
+      locale: pt-PT
+    - langType: ru
+      collumPos: 22
+      twoLettersCode: ru
+      locale: ru-RU
+    - langType: sr
+      collumPos: 23
+      twoLettersCode: sr
+      locale: sr-SP
+    - langType: sv-SE
+      collumPos: 24
+      twoLettersCode: sv
+      locale: sv-SE
+    - langType: tr
+      collumPos: 25
+      twoLettersCode: tr
+      locale: tr-TR
+    - langType: uk
+      collumPos: 26
+      twoLettersCode: uk
+      locale: uk-UA
+    - langType: zh-CN
+      collumPos: 27
+      twoLettersCode: zh
+      locale: zh-CN
+    - langType: zh-TW
+      collumPos: 28
+      twoLettersCode: zh
+      locale: zh-TW
+    - langType: en
+      collumPos: 29
+      twoLettersCode: en
+      locale: en-US
+    - langType: vi
+      collumPos: 30
+      twoLettersCode: vi
+      locale: vi-VN
+    - langType: pt-BR
+      collumPos: 31
+      twoLettersCode: pt
+      locale: pt-BR
+  stringTablesSelection:
+    allSelected: 1
+    selectedTables: []
+  assetTablesSelection:
+    allSelected: 1
+    selectedTables: []
+  branches: []

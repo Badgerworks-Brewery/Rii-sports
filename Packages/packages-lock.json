@@ -1,5 +1,15 @@
 {
   "dependencies": {
+    "com.crowdin.unity-plugin": {
+      "version": "0.7.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.localization": "1.4.5",
+        "com.unity.nuget.newtonsoft-json": "3.2.1"
+      },
+      "url": "https://registry.npmjs.org"
+    },
     "com.unity.addressables": {
       "version": "1.22.2",
       "depth": 0,
@@ -93,6 +103,16 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.localization": {
+      "version": "1.5.2",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.addressables": "1.21.9",
+        "com.unity.nuget.newtonsoft-json": "3.0.2"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.mathematics": {
       "version": "1.2.6",
       "depth": 1,
@@ -112,6 +132,13 @@
     },
     "com.unity.nuget.mono-cecil": {
       "version": "1.11.4",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
@@ -243,7 +270,7 @@
     },
     "com.unity.modules.assetbundle": {
       "version": "1.0.0",
-      "depth": 0,
+      "depth": 1,
       "source": "builtin",
       "dependencies": {}
     },
