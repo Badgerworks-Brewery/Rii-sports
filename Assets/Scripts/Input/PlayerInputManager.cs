@@ -6,14 +6,15 @@ public class PlayerInputManager : MonoBehaviour
 {
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             PlayerHit();
         }
     }
 
-    void PlayerHit()
+    private void PlayerHit()
     {
+
         EventDB.TriggerPlayerHit();
     }
 }

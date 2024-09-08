@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - CinemachineTarget
+  - Pin
+  - PinPlace
+  - Lane
+  - EOL
+  - Ball
+  - GameManager
   layers:
   - Default
   - TransparentFX
@@ -35,7 +42,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - HLOD
   - Spatial Awareness
   m_SortingLayers:
   - name: Default

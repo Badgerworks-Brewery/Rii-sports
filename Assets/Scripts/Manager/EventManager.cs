@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EventManager : MonoBehaviour
 {
     public static AI[] agents;
     public static GameObject target;
+    public static GameObject bowlingBall;
 
     private void Awake()
     {
         agents = FindObjectsOfType<AI>();
+        bowlingBall = GameObject.FindGameObjectWithTag("Ball");
     }
 
     private void OnEnable()
@@ -24,19 +27,50 @@ public class EventManager : MonoBehaviour
 
     void HandlePlayerHit()
     {
-        Debug.Log("Player was hit!");
-        target = GameObject.Find("Target");
+        Debug.Log("Player hit!");
+        if(SceneManager.GetActiveScene().name == "Bowling"){
+            CheckForBowlingBall();
+            
+            BowlingBall ballScript = bowlingBall.GetComponent<BowlingBall>();
 
-        if (target == null)
-        {
-            Debug.LogError("Target GameObject not found!");
-            return;
+            if (bowlingBall != null)
+            {
+                ballScript.ThrowBall();
+            }
+            else
+            {
+                Debug.LogWarning("BowlingBall component not found on " + bowlingBall.name);
+            }
+        }else{
+            target = GameObject.Find("Target");
+
+            if (target == null)
+            {
+                Debug.LogError("Target GameObject not found!");
+                return;
+            }
+            
+            foreach (AI agent in agents)
+            {
+                agent.SetTarget(target);
+                agent.Move();
+            }
         }
-        
-        foreach (AI agent in agents)
+    }
+
+    public void CheckForBowlingBall()
+    {
+        while (bowlingBall == null)
         {
-            agent.SetTarget(target);
-            agent.Move();
+            bowlingBall = GameObject.FindGameObjectWithTag("Ball");
+            if (bowlingBall != null)
+            {
+                Debug.Log("Bowling ball found: " + bowlingBall.name);
+            }
+            else
+            {
+                Debug.Log("Bowling ball not found.");
+            }
         }
     }
 }
