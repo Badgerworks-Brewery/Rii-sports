@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class AI : MonoBehaviour
 {
-    public GameObject player;
+    private GameObject target;
     private NavMeshAgent navmesh;
 
     private void Start()
@@ -11,8 +11,21 @@ public class AI : MonoBehaviour
         navmesh = GetComponent<NavMeshAgent>();
     }
 
-    private void Update()
+    public void SetTarget(GameObject newTarget)
     {
-        navmesh.destination = player.transform.position;
+        target = newTarget;
+    }
+
+    public void Move()
+    {
+        if (target != null)
+        {
+            Debug.Log($"Target set for AI: {target.name}");
+            navmesh.destination = target.transform.position;
+        }
+        else
+        {
+            Debug.LogWarning($"Target is not set for AI: {target.name}");
+        }
     }
 }

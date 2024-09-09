@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae3685a359e34936a24260f60bc2011, type: 3}
+  m_Name: CrowdinPluginLocalization
+  m_EditorClassIdentifier: 
+  jsonFilePath: .\Library\PackageCache\com.crowdin.unity-plugin@0.7.1/PluginLocalization.json
+  localizationStrings:
+    push_assets_translations_popup_title: Push asset translations to Crowdin
+    pull_assets_translations_popup_title: Pull asset translations from Crowdin
+    build_status: Building translations (&0%)
+    push_screenshots_title: Push screenshots
+    push_screenshots_btn_title: Take a screenshot and send to Crowdin
+    push_strings_translations_title: Push string translations to Crowdin
+    take_screenshot: Take screenshot
+    saved_screenshot: Screenshot "&0" successfully added
+    sending_to_server: Uploading screenshots to Crowdin...
+    start_import_assets: Importing assets to Localization Table Collections...
+    pulling_from_server: Downloading translations from Crowdin...
+    import_item_asset: '- Table "&0": imported &1 asset translation rows'
+    import_item_string: '- Table "&0": imported &1 string translation rows'
+    import_comp_asset_translations: Import completed. Imported &0 tables with &1
+      asset translation rows
+    import_comp_string_translations: Import completed. Imported &0 tables with &1
+      string translation rows
+    import_asset: Importing asset "&0"...
+    pull_string_translations_popup_title: Pull string translations from Crowdin
+    start_import_strings: Importing strings to Localization Table Collections...
+    import_str: Imported string "&0"
+    import_table: 'Table: "&0"'
+    push_assets_popup_title: Push assets to Crowdin
+    push_strings_popup_title: Push strings to Crowdin
+    get_projects_label: Fetching project info...
+    get_projects_error_label: Can't connect to Crowdin. Check your credentials and
+      try again
+    connect_crowdin_popup_title: Connect to Crowdin
+    connect_crowdin_btn_title: Connect
+    connect_crowdin_token: Personal Access Token
+    connect_crowdin_domain: Organization Name (for Crowdin Enterprise only)
+    connect_crowdin_connect_failed: Failed to connect, please try again
+    connect_crowdin_get_failed: Can't find available projects, please try again
+    connect_crowdin_successful: Connection successful
+    start_export_assets: Uploading assets to Crowdin...
+    start_export_transl_assets: Uploading asset translations to Crowdin...
+    translation_upd: '"&0" translations for "&1 (&2)" asset successfully uploaded'
+    added_translation_asset: File "&0" successfully uploaded for asset "&1"
+    file_updated: File "&0" successfully updated
+    file_created: File "&0" successfully created
+    send_successful: Strings successfully uploaded. &0
+    start_parsing_str: Collecting strings for upload...
+    send_translations_str: Uploading string translations from table "&0" to Crowdin...
+    pull_error: Failed to download translations from Crowdin. Please try again or
+      contact our support team for help
+    pull_successful: Download successfully completed
+    on_build_translation: Building ZIP archive with the latest translations...
+    on_download_source_file: Downloading translations...
+    unzip_done: Extracted "&0" translation package
+    assets_pushed: 'Assets successfully uploaded to Crowdin. Count: &0'
+    send_translations_finished: 'All translations uploaded to Crowdin. Count: &0'
+    send_strings_finished: 'All source strings uploaded to Crowdin. Count: &0'
+    start_parsing_str_transl: Collecting string translations for upload...
+    finish_upload_transl_table: '"&0" translations (&1 keys) succcessfully uploaded'
+    upload_str_table: Uploading string table "&0" to Crowdin...
+    alert_title: Crowdin Plugin Info
+    alert_desc: Please run the game to take a screenshot
+    alert_btn: OK
+    alert_push_strings: No tables with strings
+    alert_push_assets: No tables with assets
+    no_str_tables: There are no strings Localization Tables in the project.
+    no_asset_tables: There are no assets Localization Tables in the project.
+    directory_found: Found remote directory "unity-plugin"
+    directory_not_found: The remote directory "unity-plugin" not found
+    no_tables_selected_error: Please select at least one table before continuing
+    table_exported_strings: Table "&0" was uploaded. Exported &1 strings
+    ensure_strings_synced_start: Ensuring all remote strings are available locally...
+    ensure_strings_synced_end: All remote strings were pulled
+    stats_received_asset_translations: Received &0 asset translations
+    stats_received_string_translations: Received &0 string translations
+    error_string_project_no_asset_actions: No asset actions allowed with string-based
+      projects
+    error_project_not_string_based: Project is not string-based
+    error_processing: Error occurred during processing. See console for details
+    error_api: 'API Error: &0'
+    branch_not_found: Branch "&0" not found
+    upload_finished: Upload finished
+    progress_status: 'Progress: status = "&0" (&1 %)'
+    flag_update_strings: Update strings
+    flag_cleanup_mode: Cleanup mode
+    list_branches: Select Crowdin branch
+    button_branches_refresh: Refresh

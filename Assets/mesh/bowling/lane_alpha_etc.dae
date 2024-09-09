@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA version="1.5.0" xmlns="http://www.collada.org/2008/03/COLLADASchema">
+	<asset>
+		<contributor>
+			<authoring_tool>BrawlBox</authoring_tool>
+		</contributor>
+		<created>2022-12-27T09:44:28Z</created>
+		<modified>2022-12-27T09:44:28Z</modified>
+		<unit meter="0.01" name="centimeter" />
+		<up_axis>Y_UP</up_axis>
+	</asset>
+	<library_images>
+		<image id="alpha_lane-image" name="alpha_lane">
+			<init_from>
+				<ref>alpha_lane.png</ref>
+			</init_from>
+		</image>
+	</library_images>
+	<library_materials>
+		<material id="alpha_lane_mat">
+			<instance_effect url="#alpha_lane_mat-fx" />
+		</material>
+	</library_materials>
+	<library_effects>
+		<effect id="alpha_lane_mat-fx" name="alpha_lane_mat">
+			<profile_COMMON>
+				<newparam sid="alpha_lane-surface">
+					<surface type="2D">
+						<init_from>
+							<ref>alpha_lane-image</ref>
+						</init_from>
+					</surface>
+				</newparam>
+				<newparam sid="alpha_lane-sampler">
+					<sampler2D>
+						<source>alpha_lane-surface</source>
+						<instance_image url="#alpha_lane-image" />
+						<wrap_s>WRAP</wrap_s>
+						<wrap_t>WRAP</wrap_t>
+						<minfilter>LINEAR</minfilter>
+						<magfilter>LINEAR</magfilter>
+					</sampler2D>
+				</newparam>
+				<technique sid="COMMON">
+					<phong>
+						<diffuse>
+							<texture texture="alpha_lane-sampler" texcoord="TEXCOORD0" />
+						</diffuse>
+					</phong>
+				</technique>
+			</profile_COMMON>
+		</effect>
+	</library_effects>
+	<library_geometries>
+		<geometry id="polygon0" name="polygon0">
+			<mesh>
+				<source id="polygon0_Positions">
+					<float_array id="polygon0_PosArr" count="42">-7.878942 0 0 -7.878942 0 -192.16 -5.269743 0 -192.16 -5.269743 0 0 7.878942 0 0 5.269743 0 0 5.269743 0 -192.16 7.878942 0 -192.16 -7.48282 -5E-06 -192.16 -7.48282 2.099995 -192.16 7.48282 2.099995 -192.16 7.48282 -5E-06 -192.16 -7.48282 2.099995 -199 7.48282 2.099995 -199</float_array>
+					<technique_common>
+						<accessor source="#polygon0_PosArr" count="14" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Normals">
+					<float_array id="polygon0_NormArr" count="6">0 1 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_NormArr" count="2" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Colors0">
+					<float_array id="polygon0_ColorArr0" count="8">0,3764706 0,3764706 0,3764706 0 1 1 1 0</float_array>
+					<technique_common>
+						<accessor source="#polygon0_ColorArr0" count="2" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_UVs0">
+					<float_array id="polygon0_UVArr0" count="12">0.769531 0.757812 0.871094 0.824219 1 0 1 1 0 1 0 0</float_array>
+					<technique_common>
+						<accessor source="#polygon0_UVArr0" count="6" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon0_Vertices">
+					<input semantic="POSITION" source="#polygon0_Positions" />
+				</vertices>
+				<triangles material="alpha_lane_mat" count="8">
+					<input semantic="VERTEX" source="#polygon0_Vertices" offset="0" />
+					<input semantic="NORMAL" source="#polygon0_Normals" offset="1" />
+					<input semantic="COLOR" source="#polygon0_Colors0" set="0" offset="2" />
+					<input semantic="TEXCOORD" source="#polygon0_UVs0" set="0" offset="3" />
+					<p>0 0 0 0 2 0 0 0 1 0 0 0 0 0 0 0 3 0 0 0 2 0 0 0 4 0 0 1 6 0 0 1 5 0 0 1 4 0 0 1 7 0 0 1 6 0 0 1 8 1 1 2 10 1 1 4 9 1 1 3 8 1 1 2 11 1 1 5 10 1 1 4 9 0 1 2 13 0 1 4 12 0 1 3 9 0 1 2 10 0 1 5 13 0 1 4</p>
+				</triangles>
+			</mesh>
+		</geometry>
+	</library_geometries>
+	<library_controllers>
+		<controller id="polygon0_Controller">
+			<skin source="#polygon0">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon0_Joints">
+					<Name_array id="polygon0_JointArr" count="1">lane_alpha_etc</Name_array>
+					<technique_common>
+						<accessor source="#polygon0_JointArr" count="1">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Matrices">
+					<float_array id="polygon0_MatArr" count="16">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_MatArr" count="1" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Weights">
+					<float_array id="polygon0_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon0_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon0_Matrices" />
+				</joints>
+				<vertex_weights count="14">
+					<input semantic="JOINT" offset="0" source="#polygon0_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon0_Weights" />
+					<vcount>1 1 1 1 1 1 1 1 1 1 1 1 1 1</vcount>
+					<v>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+	</library_controllers>
+	<library_visual_scenes>
+		<visual_scene id="RootNode" name="RootNode">
+			<node id="lane_alpha_etc" name="lane_alpha_etc" sid="lane_alpha_etc" type="JOINT" />
+			<node id="polygon0" name="polygon0" type="NODE">
+				<instance_controller url="#polygon0_Controller">
+					<skeleton>#lane_alpha_etc</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="alpha_lane_mat" target="#alpha_lane_mat">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+		</visual_scene>
+	</library_visual_scenes>
+	<scene>
+		<instance_visual_scene url="#RootNode" />
+	</scene>
+</COLLADA>
