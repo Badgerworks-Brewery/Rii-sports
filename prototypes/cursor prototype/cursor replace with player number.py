@@ -43,6 +43,18 @@ clicked_overlay = full_cursor_image.subsurface((64, 64, 64, 64))  # Bottom-right
 # Create tinted overlays using the player color
 def create_tinted_overlay(original):
     # Create a surface with the same size but includes an alpha channel for transparency
+    """Creates a tinted overlay for a given surface.
+    
+    Args:
+        original (pygame.Surface): The original surface to be tinted.
+    
+    Returns:
+        pygame.Surface: A new surface with the original image tinted using the player color.
+    
+    Note:
+        This function assumes that 'player_color' is a global or accessible variable
+        containing an RGB tuple representing the tint color.
+    """
     tinted = pygame.Surface((64, 64), pygame.SRCALPHA)
     tinted.fill(player_color + (40,))  # Player color with specified transparency
     tinted.blit(original, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
