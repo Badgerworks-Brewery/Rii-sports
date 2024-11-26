@@ -37,6 +37,20 @@ int selected[5]={0,0,0,0,0};				//This array is for the number of miis displayed
 u32 wpaddown,wpadheld;
 ir_t ir1,ir2,ir3;
 
+/**
+ * Draws a text string using a TrueType font with a shadow effect.
+ * 
+ * @param font Pointer to the FreeTypeGX object used for rendering
+ * @param xpos The x-coordinate of the text position
+ * @param ypos The y-coordinate of the text position
+ * @param shadow The offset for the shadow effect
+ * @param fgc The foreground color of the text
+ * @param bgc The background color (used for the shadow)
+ * @param style The style flags for text rendering
+ * @param s The format string for the text to be drawn
+ * @param ... Variable arguments for the format string
+ * @return void
+ */
 void printf_ttf(FreeTypeGX* font, int xpos, int ypos, int shadow, GXColor fgc, GXColor bgc, u16 style, const char *s, ...) { // custom function i made to draw ttf fonts with a little shaddow effect
 	va_list ap;
 	char line[200];
@@ -54,6 +68,16 @@ void printf_ttf(FreeTypeGX* font, int xpos, int ypos, int shadow, GXColor fgc, G
 	font->drawText(xpos, ypos, line_wchar, fgc, style);
 }
 
+/**
+ * Draws a menu displaying static Mii characters for selection.
+ * 
+ * This method creates an interactive menu where the user can browse and select
+ * from a set of static Mii characters. It handles user input for navigation
+ * and selection, and renders the Mii characters on the screen.
+ * 
+ * @param currentmii The index of the currently selected Mii
+ * @return The index of the selected Mii character
+ */
 int drawthemiis(int currentmii) {  	// Draws the menu that displays all the static mii's for you to pick one.
 	int themiis=1;
 	int x=-150;
@@ -119,6 +143,18 @@ int drawthemiis(int currentmii) {  	// Draws the menu that displays all the stat
 	return (selection);
 }
 
+/**
+ * Initializes the program and sets up various components.
+ * 
+ * This method performs the following tasks:
+ * - Initializes GRRLIB (Graphics Library)
+ * - Initializes and loads Mii characters
+ * - Loads textures for the pointer and Mii characters
+ * - Sets up the font using FreeTypeGX
+ * - Initializes the Wiimote and sets its data format
+ * 
+ * @return void
+ */
 void initme() {						// sets up our program
 
 	GRRLIB_Init();					// Init GRRLIB
@@ -141,12 +177,33 @@ void initme() {						// sets up our program
 	
 }
 
+/**
+ * Randomizes the selection of Miis.
+ * 
+ * This method populates the 'selected' array with random indices
+ * representing Miis. It selects 5 random Mii indices from the 
+ * available pool of Miis (NoOfMiis).
+ * 
+ * @param None
+ * @return void
+ */
 void randomizemii() {				// If random mii button is hit, set the Mii array to some random numbers
 	for(int i=0; i < 5; i++) {
 		selected[i] = rand() % NoOfMiis; //6 = NoOfMiis
 	}
 }
 
+/**
+ * Main function for a Mii customization application.
+ * 
+ * This function initializes the application, sets up the display, and enters a
+ * main loop for user interaction. It allows users to select and customize Mii
+ * characters, including changing their facial expressions (eyes and mouth) and
+ * randomizing selections. The function handles user input via the Wii Remote,
+ * updates the display, and manages the application state.
+ * 
+ * @return 0 on successful execution and termination of the program
+ */
 int main() {
 
 	initme();
