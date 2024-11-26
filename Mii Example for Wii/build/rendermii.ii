@@ -33807,6 +33807,18 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
   template <typename _Container>
+    /**
+     * Checks if the given container is empty.
+     * 
+     * This is a constexpr function that determines whether the provided container
+     * has any elements. It delegates to the container's own empty() method.
+     * 
+     * @param __cont The container to check for emptiness
+     * @return True if the container is empty, false otherwise
+     * 
+     * @note This function is marked [[nodiscard]] to warn if the return value is ignored
+     * @note This function is noexcept if the container's empty() method is noexcept
+     */
     [[nodiscard]] constexpr auto
     empty(const _Container& __cont) noexcept(noexcept(__cont.empty()))
     -> decltype(__cont.empty())
@@ -33816,6 +33828,18 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
   template <typename _Tp, size_t _Nm>
+    /**
+     * Checks if the given array is empty.
+     * 
+     * This function always returns false for C-style arrays, as they cannot be empty.
+     * 
+     * @param arr The array to check. Its type is _Tp[_Nm], where _Tp is the element type and _Nm is the array size.
+     * @return Always returns false, as C-style arrays cannot be empty.
+     * 
+     * @note This function is marked [[nodiscard]] to warn if the return value is discarded.
+     * @note This function is constexpr, allowing it to be evaluated at compile-time when possible.
+     * @note This function is noexcept, guaranteeing that it won't throw exceptions.
+     */
     [[nodiscard]] constexpr bool
     empty(const _Tp (&)[_Nm]) noexcept
     { return false; }
@@ -33825,6 +33849,12 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
   template <typename _Tp>
+    /**
+     * Checks if the given initializer list is empty.
+     * 
+     * @param __il The initializer list to check
+     * @return true if the initializer list is empty, false otherwise
+     */
     [[nodiscard]] constexpr bool
     empty(initializer_list<_Tp> __il) noexcept
     { return __il.size() == 0;}
@@ -33834,6 +33864,16 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
   template <typename _Container>
+    /**
+     * Returns a pointer to the underlying array serving as element storage for the container.
+     * 
+     * @param __cont The container object for which to retrieve the data pointer
+     * @return A pointer to the underlying array, or a null pointer if the container is empty
+     * 
+     * @note This function is marked [[nodiscard]] to warn if the return value is discarded
+     * @note This function is constexpr, allowing it to be used in constant expressions
+     * @note This function is noexcept if the container's data() member function is noexcept
+     */
     [[nodiscard]]
     constexpr auto
     data(_Container& __cont) noexcept(noexcept(__cont.data()))
@@ -33845,6 +33885,21 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
   template <typename _Container>
+    /**
+     * Returns a pointer to the underlying array serving as element storage for the container.
+     * 
+     * This function provides direct access to the contiguous memory array used internally
+     * by the container to store its elements. It allows for more efficient access to the
+     * container's data, especially when interfacing with C APIs or performing low-level
+     * operations.
+     * 
+     * @param __cont The container whose underlying data is to be accessed
+     * @return A pointer to the underlying array, or a null pointer if the container is empty
+     * 
+     * @note This function is marked [[nodiscard]] to warn if the return value is discarded
+     * @note This function is constexpr, allowing it to be used in constant expressions
+     * @note The noexcept specification matches that of the container's data() member function
+     */
     [[nodiscard]]
     constexpr auto
     data(const _Container& __cont) noexcept(noexcept(__cont.data()))
@@ -33856,6 +33911,12 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
   template <typename _Tp, size_t _Nm>
+    /**
+     * Returns a pointer to the first element of the given array.
+     * 
+     * @param __array The array to get the pointer from
+     * @return A pointer to the first element of the array
+     */
     [[nodiscard]]
     constexpr _Tp*
     data(_Tp (&__array)[_Nm]) noexcept
@@ -33895,6 +33956,17 @@ namespace std
   {
     template<typename _Container, typename _UnsafeContainer,
       typename _Predicate>
+      /**
+       * Erases nodes from a container based on a predicate condition.
+       * 
+       * This method iterates through an unsafe container and removes elements
+       * from the corresponding safe container if they satisfy the given predicate.
+       * 
+       * @param __cont The safe container to modify
+       * @param __ucont The unsafe container to iterate through
+       * @param __pred The predicate function used to determine which elements to erase
+       * @return The number of elements erased from the container
+       */
       typename _Container::size_type
       __erase_nodes_if(_Container& __cont, const _UnsafeContainer& __ucont,
          _Predicate __pred)
@@ -34469,12 +34541,33 @@ static inline void GRRLIB_FreeTexture (GRRLIB_texImg *tex);
 
 # 1 "C:/devkitPro/libogc/include/grrlib/GRRLIB_clipping.h" 1
 # 31 "C:/devkitPro/libogc/include/grrlib/GRRLIB_clipping.h"
+/**
+ * Resets the clipping mode and scissor box to default values.
+ * 
+ * This function disables clipping mode and sets the scissor box
+ * to cover the entire screen based on the current render mode.
+ * 
+ * @return void This function does not return a value.
+ */
 static inline
 void GRRLIB_ClipReset (void) {
     GX_SetClipMode( 0 );
     GX_SetScissor( 0, 0, rmode->fbWidth, rmode->efbHeight );
 }
 # 44 "C:/devkitPro/libogc/include/grrlib/GRRLIB_clipping.h"
+/**
+ * Sets the clipping region for drawing operations.
+ * 
+ * This function configures the clipping area for subsequent drawing operations.
+ * It sets the clip mode and defines a rectangular region within which drawing will occur.
+ * Any pixels outside this region will not be affected by drawing operations.
+ * 
+ * @param x The x-coordinate of the top-left corner of the clipping region.
+ * @param y The y-coordinate of the top-left corner of the clipping region.
+ * @param width The width of the clipping region.
+ * @param height The height of the clipping region.
+ * @return This function does not return a value.
+ */
 static inline
 void GRRLIB_ClipDrawing (const int x, const int y,
                           const int width, const int height) {
@@ -34484,6 +34577,17 @@ void GRRLIB_ClipDrawing (const int x, const int y,
 # 123 "C:/devkitPro/libogc/include/grrlib/GRRLIB__inline.h" 2
 # 1 "C:/devkitPro/libogc/include/grrlib/GRRLIB_collision.h" 1
 # 38 "C:/devkitPro/libogc/include/grrlib/GRRLIB_collision.h"
+/**
+ * Checks if a point is inside a rectangle.
+ * 
+ * @param hotx The x-coordinate of the rectangle's top-left corner
+ * @param hoty The y-coordinate of the rectangle's top-left corner
+ * @param hotw The width of the rectangle
+ * @param hoth The height of the rectangle
+ * @param wpadx The x-coordinate of the point to check
+ * @param wpady The y-coordinate of the point to check
+ * @return true if the point is inside the rectangle, false otherwise
+ */
 static inline
 bool GRRLIB_PtInRect (const int hotx, const int hoty,
                        const int hotw, const int hoth,
@@ -34492,6 +34596,19 @@ bool GRRLIB_PtInRect (const int hotx, const int hoty,
             ((wpady>=hoty) && (wpady<=(hoty+hoth))) );
 }
 # 58 "C:/devkitPro/libogc/include/grrlib/GRRLIB_collision.h"
+/**
+ * Checks if one rectangle is completely inside another rectangle.
+ * 
+ * @param rect1x The x-coordinate of the first rectangle's top-left corner
+ * @param rect1y The y-coordinate of the first rectangle's top-left corner
+ * @param rect1w The width of the first rectangle
+ * @param rect1h The height of the first rectangle
+ * @param rect2x The x-coordinate of the second rectangle's top-left corner
+ * @param rect2y The y-coordinate of the second rectangle's top-left corner
+ * @param rect2w The width of the second rectangle
+ * @param rect2h The height of the second rectangle
+ * @return true if the first rectangle is completely inside the second rectangle, false otherwise
+ */
 static inline
 bool GRRLIB_RectInRect (const int rect1x, const int rect1y,
                          const int rect1w, const int rect1h,
@@ -34502,6 +34619,19 @@ bool GRRLIB_RectInRect (const int rect1x, const int rect1y,
              (rect1y+rect1h <= rect2y+rect2h) );
 }
 # 80 "C:/devkitPro/libogc/include/grrlib/GRRLIB_collision.h"
+/**
+ * Checks if two rectangles intersect or overlap.
+ * 
+ * @param rect1x The x-coordinate of the first rectangle's top-left corner
+ * @param rect1y The y-coordinate of the first rectangle's top-left corner
+ * @param rect1w The width of the first rectangle
+ * @param rect1h The height of the first rectangle
+ * @param rect2x The x-coordinate of the second rectangle's top-left corner
+ * @param rect2y The y-coordinate of the second rectangle's top-left corner
+ * @param rect2w The width of the second rectangle
+ * @param rect2h The height of the second rectangle
+ * @return true if the rectangles intersect or overlap, false otherwise
+ */
 static inline
 bool GRRLIB_RectOnRect (const int rect1x, const int rect1y,
                          const int rect1w, const int rect1h,
@@ -34515,6 +34645,13 @@ bool GRRLIB_RectOnRect (const int rect1x, const int rect1y,
 # 124 "C:/devkitPro/libogc/include/grrlib/GRRLIB__inline.h" 2
 # 1 "C:/devkitPro/libogc/include/grrlib/GRRLIB_fbComplex.h" 1
 # 34 "C:/devkitPro/libogc/include/grrlib/GRRLIB_fbComplex.h"
+/**
+ * Plots N points using the GX engine
+ * 
+ * @param v An array of guVector points to be plotted
+ * @param color An array of colors corresponding to each point
+ * @param n The number of points to plot
+ */
 static inline
 void GRRLIB_NPlot (const guVector v[], const u32 color[], const long n) {
     GRRLIB_GXEngine(v, color, n, 0xB8);
@@ -34526,6 +34663,14 @@ void GRRLIB_NPlot (const guVector v[], const u32 color[], const long n) {
 
 
 
+/**
+ * Renders an n-sided polygon using the GRRLIB graphics library.
+ * 
+ * @param v Array of guVector structures representing the vertices of the polygon
+ * @param color Array of u32 values representing the colors for each vertex
+ * @param n Number of sides (vertices) in the polygon
+ * @return void
+ */
 static inline
 void GRRLIB_NGone (const guVector v[], const u32 color[], const long n) {
     GRRLIB_GXEngine(v, color, n, 0xB0);
@@ -34537,6 +34682,13 @@ void GRRLIB_NGone (const guVector v[], const u32 color[], const long n) {
 
 
 
+/**
+ * Draws a filled n-sided polygon using the GX engine.
+ * 
+ * @param v Array of guVector structures representing the vertices of the polygon
+ * @param color Array of u32 values representing the colors of each vertex
+ * @param n Number of sides (vertices) in the polygon
+ */
 static inline
 void GRRLIB_NGoneFilled (const guVector v[], const u32 color[], const long n) {
     GRRLIB_GXEngine(v, color, n, 0xA0);
@@ -34544,6 +34696,19 @@ void GRRLIB_NGoneFilled (const guVector v[], const u32 color[], const long n) {
 # 125 "C:/devkitPro/libogc/include/grrlib/GRRLIB__inline.h" 2
 # 1 "C:/devkitPro/libogc/include/grrlib/GRRLIB_fbGX.h" 1
 # 35 "C:/devkitPro/libogc/include/grrlib/GRRLIB_fbGX.h"
+/**
+ * Renders 3D geometry using the GX graphics engine.
+ * 
+ * This function initializes a GX drawing operation, sets vertex positions and colors,
+ * and then finalizes the drawing. It's used for rendering 3D primitives with the 
+ * specified format.
+ * 
+ * @param v[] An array of guVector structures representing 3D vertex positions
+ * @param color[] An array of u32 values representing colors for each vertex
+ * @param n The number of vertices to be rendered
+ * @param fmt The format of the primitives to be drawn (e.g., GX_TRIANGLES, GX_QUADS)
+ * @return void This function does not return a value
+ */
 static inline
 void GRRLIB_GXEngine (const guVector v[], const u32 color[], const long n,
                        const u8 fmt) {
@@ -34557,11 +34722,32 @@ void GRRLIB_GXEngine (const guVector v[], const u32 color[], const long n,
 # 126 "C:/devkitPro/libogc/include/grrlib/GRRLIB__inline.h" 2
 # 1 "C:/devkitPro/libogc/include/grrlib/GRRLIB_fbSimple.h" 1
 # 32 "C:/devkitPro/libogc/include/grrlib/GRRLIB_fbSimple.h"
+/**
+ * Fills the entire screen with a specified color.
+ * 
+ * This function uses the GRRLIB_Rectangle function to draw a rectangle that covers
+ * the entire screen, effectively filling it with the specified color. The rectangle
+ * is slightly larger than the screen dimensions to ensure complete coverage.
+ * 
+ * @param color The color to fill the screen with, represented as a 32-bit unsigned integer (u32).
+ * @return This function does not return a value.
+ */
 static inline
 void GRRLIB_FillScreen (const u32 color) {
     GRRLIB_Rectangle(-40.0f, -40.0f, rmode->fbWidth + 80.0f, rmode->xfbHeight + 80.0f, color, true);
 }
 # 44 "C:/devkitPro/libogc/include/grrlib/GRRLIB_fbSimple.h"
+/**
+ * Plots a single point on the screen.
+ * 
+ * This function uses the GX graphics API to draw a single point at the specified
+ * coordinates with the given color. It sets up a graphics primitive of type 0xB8
+ * (likely a point primitive) with one vertex.
+ * 
+ * @param x The x-coordinate of the point to be plotted.
+ * @param y The y-coordinate of the point to be plotted.
+ * @param color The color of the point in 32-bit RGBA format.
+ */
 static inline
 void GRRLIB_Plot (const f32 x, const f32 y, const u32 color) {
     GX_Begin(0xB8, 0, 1);
@@ -34570,6 +34756,16 @@ void GRRLIB_Plot (const f32 x, const f32 y, const u32 color) {
     GX_End();
 }
 # 61 "C:/devkitPro/libogc/include/grrlib/GRRLIB_fbSimple.h"
+/**
+ * Draws a line between two points with a specified color.
+ * 
+ * @param x1 The x-coordinate of the starting point
+ * @param y1 The y-coordinate of the starting point
+ * @param x2 The x-coordinate of the ending point
+ * @param y2 The y-coordinate of the ending point
+ * @param color The color of the line (32-bit RGBA)
+ * @return None
+ */
 static inline
 void GRRLIB_Line (const f32 x1, const f32 y1,
                    const f32 x2, const f32 y2, const u32 color) {
@@ -34581,6 +34777,16 @@ void GRRLIB_Line (const f32 x1, const f32 y1,
     GX_End();
 }
 # 81 "C:/devkitPro/libogc/include/grrlib/GRRLIB_fbSimple.h"
+/**
+ * Draws a rectangle on the screen.
+ * 
+ * @param x The x-coordinate of the top-left corner of the rectangle.
+ * @param y The y-coordinate of the top-left corner of the rectangle.
+ * @param width The width of the rectangle.
+ * @param height The height of the rectangle.
+ * @param color The color of the rectangle in RGBA format.
+ * @param filled A boolean indicating whether the rectangle should be filled (true) or outlined (false).
+ */
 static inline
 void GRRLIB_Rectangle (const f32 x, const f32 y,
                         const f32 width, const f32 height,
@@ -34618,6 +34824,17 @@ void GRRLIB_Rectangle (const f32 x, const f32 y,
 # 127 "C:/devkitPro/libogc/include/grrlib/GRRLIB__inline.h" 2
 # 1 "C:/devkitPro/libogc/include/grrlib/GRRLIB_handle.h" 1
 # 35 "C:/devkitPro/libogc/include/grrlib/GRRLIB_handle.h"
+/**
+ * Sets the handle (center point) of a texture.
+ * 
+ * This function adjusts the handle (center point) of a texture image. If the texture
+ * is tiled, it uses the tile dimensions; otherwise, it uses the full texture dimensions.
+ * The handle is set relative to the top-left corner of the texture or tile.
+ * 
+ * @param tex Pointer to the GRRLIB_texImg structure to modify.
+ * @param x The x-coordinate of the new handle position relative to the center.
+ * @param y The y-coordinate of the new handle position relative to the center.
+ */
 static inline
 void GRRLIB_SetHandle (GRRLIB_texImg *tex, const int x, const int y) {
     if (tex->tiledtex) {
@@ -34635,6 +34852,16 @@ void GRRLIB_SetHandle (GRRLIB_texImg *tex, const int x, const int y) {
 
 
 
+/**
+ * Sets the middle handle for a texture.
+ * 
+ * This function sets the handle point of a texture to its center or resets it to the top-left corner.
+ * If enabled, it calculates the center point based on the texture's dimensions (considering tiled textures),
+ * and sets the handle to this point. If disabled, it resets the handle to (0, 0).
+ * 
+ * @param tex Pointer to the GRRLIB_texImg structure representing the texture.
+ * @param enabled Boolean flag to enable (true) or disable (false) the middle handle.
+ */
 static inline
 void GRRLIB_SetMidHandle (GRRLIB_texImg *tex, const bool enabled) {
     if (enabled == true) {
@@ -34655,6 +34882,18 @@ void GRRLIB_SetMidHandle (GRRLIB_texImg *tex, const bool enabled) {
 # 128 "C:/devkitPro/libogc/include/grrlib/GRRLIB__inline.h" 2
 # 1 "C:/devkitPro/libogc/include/grrlib/GRRLIB_pixel.h" 1
 # 40 "C:/devkitPro/libogc/include/grrlib/GRRLIB_pixel.h"
+/**
+ * Retrieves a pixel color from a texture image at the specified coordinates.
+ * 
+ * This function calculates the offset in the texture data based on the given x and y coordinates,
+ * and then extracts the color information from the texture data. The color is returned as a 32-bit
+ * unsigned integer in RGBA format.
+ * 
+ * @param x The x-coordinate of the pixel to retrieve (must be within the texture's width)
+ * @param y The y-coordinate of the pixel to retrieve (must be within the texture's height)
+ * @param tex Pointer to the GRRLIB_texImg structure containing the texture data
+ * @return A 32-bit unsigned integer representing the pixel color in RGBA format
+ */
 static inline
 u32 GRRLIB_GetPixelFromtexImg (const int x, const int y,
                                 const GRRLIB_texImg *tex) {
@@ -34668,6 +34907,19 @@ u32 GRRLIB_GetPixelFromtexImg (const int x, const int y,
     return (ar<<24) | ( ((u32)(*((u16*)(bp+offs+32)))) <<8) | (ar>>8);
 }
 # 61 "C:/devkitPro/libogc/include/grrlib/GRRLIB_pixel.h"
+/**
+ * Sets a pixel color in a texture image.
+ * 
+ * This function sets the color of a specific pixel in a GRRLIB texture image.
+ * It calculates the offset in the texture data based on the x and y coordinates,
+ * and then sets the color value at that position.
+ * 
+ * @param x The x-coordinate of the pixel to set.
+ * @param y The y-coordinate of the pixel to set.
+ * @param tex Pointer to the GRRLIB_texImg structure representing the texture.
+ * @param color The color value to set for the pixel (32-bit RGBA format).
+ * @return void This function does not return a value.
+ */
 static inline
 void GRRLIB_SetPixelTotexImg (const int x, const int y,
                                GRRLIB_texImg *tex, const u32 color) {
@@ -34686,6 +34938,16 @@ void GRRLIB_SetPixelTotexImg (const int x, const int y,
 
 
 
+/**
+ * Retrieves a pixel color from the framebuffer at the specified coordinates.
+ * 
+ * This function reads a 32-bit color value from the framebuffer at the given
+ * (x, y) position and returns it in RGBA8 format.
+ * 
+ * @param x The x-coordinate of the pixel to retrieve (0-1023).
+ * @param y The y-coordinate of the pixel to retrieve (0-1023).
+ * @return The color of the pixel in RGBA8 format (0xRRGGBBAA).
+ */
 static inline
 u32 GRRLIB_GetPixelFromFB (int x, int y) {
     u32 regval,val;
@@ -34703,6 +34965,16 @@ u32 GRRLIB_GetPixelFromFB (int x, int y) {
 
 
 
+/**
+ * Sets a pixel color in the framebuffer at the specified coordinates.
+ * 
+ * This method directly manipulates memory to set the color of a pixel in the framebuffer.
+ * It uses bit manipulation and shifting to efficiently set the pixel color.
+ * 
+ * @param x The x-coordinate of the pixel to set (0-1023, 10-bit value)
+ * @param y The y-coordinate of the pixel to set (0-1023, 10-bit value)
+ * @param pokeColor The 32-bit RGBA color value to set for the pixel
+ */
 static inline
 void GRRLIB_SetPixelToFB (int x, int y, u32 pokeColor) {
     u32 regval;
@@ -34720,6 +34992,20 @@ extern GRRLIB_drawSettings GRRLIB_Settings;
 
 
 
+/**
+ * Sets the blending mode for subsequent rendering operations.
+ * 
+ * This function updates the global GRRLIB_Settings.blend with the specified
+ * blendmode and configures the GX hardware blending mode accordingly.
+ * 
+ * @param blendmode The blending mode to set. Valid values are:
+ *                  - GRRLIB_BLEND_ALPHA: Alpha blending
+ *                  - GRRLIB_BLEND_ADD: Additive blending
+ *                  - GRRLIB_BLEND_SCREEN: Screen blending
+ *                  - GRRLIB_BLEND_MULTI: Multiplicative blending
+ *                  - GRRLIB_BLEND_INV: Inverse blending
+ * @return void This function does not return a value.
+ */
 static inline
 void GRRLIB_SetBlend (const GRRLIB_blendMode blendmode) {
     GRRLIB_Settings.blend = blendmode;
@@ -34773,6 +35059,16 @@ bool GRRLIB_GetAntiAliasing (void) {
 # 130 "C:/devkitPro/libogc/include/grrlib/GRRLIB__inline.h" 2
 # 1 "C:/devkitPro/libogc/include/grrlib/GRRLIB_texSetup.h" 1
 # 36 "C:/devkitPro/libogc/include/grrlib/GRRLIB_texSetup.h"
+/**
+ * Flushes the texture data from the CPU cache to main memory.
+ * 
+ * This function ensures that the texture data is written back from the CPU cache
+ * to the main memory, which is necessary for the graphics hardware to access
+ * the most up-to-date texture information.
+ * 
+ * @param tex Pointer to the GRRLIB_texImg structure containing the texture data to be flushed.
+ * @return This function does not return a value.
+ */
 static inline
 void GRRLIB_FlushTex (GRRLIB_texImg *tex) {
     DCFlushRange(tex->data, tex->w * tex->h * 4);
@@ -34784,6 +35080,16 @@ void GRRLIB_FlushTex (GRRLIB_texImg *tex) {
 
 
 
+/**
+ * Frees the memory allocated for a GRRLIB texture.
+ * 
+ * This function deallocates the memory used by a GRRLIB_texImg structure and its associated data.
+ * It first checks if the texture pointer is not null, then frees the texture data if it exists,
+ * and finally frees the texture structure itself.
+ * 
+ * @param tex Pointer to the GRRLIB_texImg structure to be freed.
+ * @return This function does not return a value.
+ */
 static inline
 void GRRLIB_FreeTexture (GRRLIB_texImg *tex) {
     if(tex != 
@@ -34806,6 +35112,15 @@ void GRRLIB_FreeTexture (GRRLIB_texImg *tex) {
 
 
 
+/**
+ * Clears the texture data of a given GRRLIB_texImg and flushes the texture.
+ * 
+ * This function sets all pixel data in the texture to zero (black, fully transparent)
+ * and then flushes the texture to ensure the changes are applied.
+ * 
+ * @param tex Pointer to the GRRLIB_texImg structure to be cleared
+ * @return void This function does not return a value
+ */
 static inline
 void GRRLIB_ClearTex(GRRLIB_texImg* tex) {
     memset(tex->data, 0, (tex->h * tex->w) << 2);
@@ -34874,6 +35189,27 @@ int selected[5]={0,0,0,0,0};
 u32 wpaddown,wpadheld;
 ir_t ir1,ir2,ir3;
 
+/**
+ * Renders text using a TrueType font with specified styling and color options.
+ * 
+ * This function uses FreeTypeGX to draw text on the screen with customizable
+ * position, color, style, and shadow effects. It supports variable arguments
+ * for formatted string output similar to printf.
+ * 
+ * @param font Pointer to the FreeTypeGX font object used for rendering
+ * @param xpos X-coordinate of the text position
+ * @param ypos Y-coordinate of the text position
+ * @param shadow Offset for the shadow effect
+ * @param fgc Foreground color of the text (GXColor)
+ * @param bgc Background color for the shadow (GXColor)
+ * @param style Text style flags (u16)
+ * @param s Format string for the text to be rendered
+ * @param ... Variable arguments for the format string
+ * @return void
+ * 
+ * @note This function is limited to a maximum of 200 characters per line.
+ * @note The function converts the input string to wide characters before rendering.
+ */
 void printf_ttf(FreeTypeGX* font, int xpos, int ypos, int shadow, GXColor fgc, GXColor bgc, u16 style, const char *s, ...) {
  va_list ap;
  char line[200];
@@ -34911,6 +35247,16 @@ ap
  font->drawText(xpos, ypos, line_wchar, fgc, style);
 }
 
+/**
+ * Draws Mii characters on the screen and handles user interaction for Mii selection.
+ * 
+ * This method displays a grid of Mii characters, allows navigation through the grid,
+ * and enables the user to select a Mii. It also handles various input controls for
+ * navigation, selection, and exiting the application.
+ * 
+ * @param currentmii The index of the currently selected Mii
+ * @return The index of the selected Mii character
+ */
 int drawthemiis(int currentmii) {
  int themiis=1;
  int x=-150;
@@ -34980,6 +35326,20 @@ int drawthemiis(int currentmii) {
  return (selection);
 }
 
+/**
+ * Initializes the application's graphics, input, and Mii-related components.
+ * 
+ * This method performs the following initialization tasks:
+ * 1. Initializes the GRRLIB graphics library
+ * 2. Initializes Mii-related functionality
+ * 3. Creates static Miis
+ * 4. Loads a pointer texture
+ * 5. Creates empty textures for Mii images
+ * 6. Initializes a FreeTypeGX font
+ * 7. Initializes the Wii Remote
+ * 
+ * @return This method does not return a value.
+ */
 void initme() {
 
  GRRLIB_Init();
@@ -35002,12 +35362,36 @@ void initme() {
 
 }
 
+/**
+ * Randomly selects 5 Mii characters from the available pool.
+ * 
+ * This method populates the 'selected' array with 5 random indices,
+ * each representing a Mii character. The indices are chosen from
+ * the range 0 to (NoOfMiis - 1).
+ * 
+ * @return void This method does not return a value.
+ */
 void randomizemii() {
  for(int i=0; i < 5; i++) {
   selected[i] = rand() % NoOfMiis;
  }
 }
 
+/**
+ * Main function for a Wii application that displays and manipulates Mii characters.
+ * 
+ * This function initializes the application, sets up the display, and enters a main loop
+ * that handles user input and updates the screen. It allows users to:
+ * - Display 5 Mii characters
+ * - Select and customize individual Mii characters
+ * - Apply random emotions (happy, shocked, sad, mad) to all displayed Miis
+ * - Reset Mii expressions to default
+ * - Randomize the selection of displayed Miis
+ * 
+ * The function uses GRRLIB for graphics rendering and WPAD for Wii Remote input.
+ * 
+ * @return 0 on successful execution and termination of the program
+ */
 int main() {
 
  initme();
