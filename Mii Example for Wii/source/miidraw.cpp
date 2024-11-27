@@ -62,6 +62,12 @@ int bodyadjust[100];		// bodyadjustment variable to draw the body in the right s
 char miinames[100][11];		// stores the names in an array for easy list in the menu (or anywhere else you want)
 // ***************************************************************
 
+/**
+ * Generates a happy facial feature for a Mii character.
+ * 
+ * @param bodypart An integer representing the body part to make happy (1 for mouth, 2 for eyes)
+ * @return An integer representing the tile index for the happy facial feature
+ */
 int MakeMiiHappy(int bodypart) {
 	if(bodypart==1) {									// 1 = mouth
 		int miipart[8] = {3, 4, 5, 8, 14, 16, 19, 23};		// Array of tiles I think are happy mouths
@@ -86,6 +92,12 @@ int MakeMiiSad(int bodypart) {
 	// etc, etc.
 	else return(0);
 }
+/**
+ * Generates a random tile number for a shocked Mii body part.
+ * 
+ * @param bodypart An integer representing the body part (1 for mouth, 2 for eyes)
+ * @return An integer representing the tile number for the shocked body part, or 0 if the bodypart is not recognized
+ */
 int MakeMiiShocked(int bodypart) {
 	if(bodypart==1) {									// 1 = mouth
 		int miipart[2] = {15, 11};							// Array of tiles I think are shocked mouths
@@ -110,6 +122,15 @@ int MakeMiiMad(int bodypart) {
 	// etc, etc.
 	else return(0);
 }
+/**
+ * Initializes the Mii components by loading textures and setting up tile sets.
+ * 
+ * This function loads various textures for Mii parts (heads, hair, eyes, etc.)
+ * and initializes tile sets for each component. It also loads Mii data from
+ * the Wii console.
+ * 
+ * @return void
+ */
 void GRRLIB_MiisInit() { // INITIALIZE THE MIIS!!!
 	
 	img_heads = GRRLIB_LoadTexture(mii_heads_png);
@@ -145,6 +166,23 @@ void GRRLIB_MiisInit() { // INITIALIZE THE MIIS!!!
 }	
 
 
+/**
+ * Builds and renders a Mii character with specified attributes and expressions.
+ * 
+ * This method constructs a Mii character by compositing various facial features and accessories based on the provided Mii structure. It handles the rendering of hair, face shape, facial features, eyes, eyebrows, lips, mustache, nose, and glasses. The method also implements a blinking mechanism for the Mii.
+ *
+ * @param mii The Mii structure containing all the character's attributes
+ * @param miiid An identifier for the Mii, used for blinking calculations
+ * @param miiblinks Flag to enable or disable blinking (1 for enabled, 0 for disabled)
+ * @param miieyes Custom eye type to use, or 0 for default eyes based on the Mii structure
+ * @param miimouth Custom mouth type to use, or 0 for default mouth based on the Mii structure
+ * @param tex Pointer to the GRRLIB_texImg structure where the rendered Mii will be stored
+ * @return void This function does not return a value
+ *
+ * @note This function uses global variables and arrays for various Mii components and colors
+ * @note The rendered Mii is composed using GRRLIB library functions
+ * @note The blinking mechanism uses random intervals for a more natural appearance
+ */
 void GRRLIB_BuildMii(Mii mii, int miiid, int miiblinks, int miieyes, int miimouth, GRRLIB_texImg* tex) { // The heart and sole, builds up our mii with requested blink, eye, and mouth settings. 0s will build the Mii unaltered)
 	
 	GRRLIB_CompoStart();
@@ -295,6 +333,16 @@ void GRRLIB_BuildMii(Mii mii, int miiid, int miiblinks, int miieyes, int miimout
 	bodyadjust[miiid] = neck;
 }
 
+/**
+ * Creates static Mii textures.
+ * 
+ * This function creates up to 100 empty textures and stores each static Mii into them.
+ * It iterates through the available Miis, creates an empty texture for each,
+ * and then builds the Mii image into the created texture.
+ * 
+ * @param None
+ * @return None
+ */
 void GRRLIB_CreateStaticMiis() {		// Create up to 100 empty textures and store each static mii into them.
 	u8 i;
 	for(i=0; i<NoOfMiis; i++) {
