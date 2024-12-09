@@ -17,6 +17,7 @@ MonoBehaviour:
   projectId: 714875
   projectIndexInList: 0
   projectType: 0
+  updateOption: 0
   languageData:
     sourceLanguage: en
     targetLanguage: 

@@ -11,7 +11,7 @@ public class EventManager : MonoBehaviour
 
     private void Awake()
     {
-        agents = FindObjectsOfType<AI>();
+        agents = FindObjectsByType<AI>(FindObjectsSortMode.None);
         bowlingBall = GameObject.FindGameObjectWithTag("Ball");
     }
 

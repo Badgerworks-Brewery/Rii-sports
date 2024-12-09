@@ -55,18 +55,37 @@ namespace FMODUnity
 
         protected override IEnumerable<FileRecord> GetBinaryFiles(BuildTarget buildTarget, bool allVariants, string suffix)
         {
-            #if UNITY_2021_2_OR_NEWER
-            bool useWASM = true;
-            #else
-            bool useWASM = false;
-            #endif
+            bool emVer_1_38_11 = false;
+            bool emVer_2_0_19 = false;
+            bool emVer_3_1_8 = false;
+            bool emVer_3_1_39 = false;
 
-            if (allVariants || useWASM)
+#if UNITY_6000_0_OR_NEWER
+            emVer_3_1_39 = true;
+#elif UNITY_2022_3_OR_NEWER
+            emVer_3_1_8 = true;
+#elif UNITY_2021_2_OR_NEWER
+            emVer_2_0_19 = true;
+#else
+            emVer_1_38_11 = true;
+#endif
+
+            if (allVariants || emVer_3_1_39)
+            {
+                yield return new FileRecord(string.Format("3.1.39/libfmodstudio{0}.a", suffix));
+            }
+
+            if (allVariants || emVer_3_1_8)
+            {
+                yield return new FileRecord(string.Format("3.1.8/libfmodstudio{0}.a", suffix));
+            }
+
+            if (allVariants || emVer_2_0_19)
             {
                 yield return new FileRecord(string.Format("2.0.19/libfmodstudio{0}.a", suffix));
             }
 
-            if (allVariants || !useWASM)
+            if (allVariants || emVer_1_38_11)
             {
                 yield return new FileRecord(string.Format("libfmodstudiounityplugin{0}.bc", suffix));
             }
