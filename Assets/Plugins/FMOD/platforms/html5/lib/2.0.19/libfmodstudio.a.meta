@@ -30,3 +30,10 @@ PluginImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 161631
+  packageName: FMOD for Unity
+  packageVersion: 2.02.24
+  assetPath: Assets/Plugins/FMOD/platforms/html5/lib/2.0.19/libfmodstudio.a
+  uploadId: 707645

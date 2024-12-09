@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dae3685a359e34936a24260f60bc2011, type: 3}
   m_Name: CrowdinPluginLocalization
   m_EditorClassIdentifier: 
-  jsonFilePath: .\Library\PackageCache\com.crowdin.unity-plugin@0.7.1/PluginLocalization.json
+  jsonFilePath: .\Library\PackageCache\com.crowdin.unity-plugin/PluginLocalization.json
   localizationStrings:
     push_assets_translations_popup_title: Push asset translations to Crowdin
     pull_assets_translations_popup_title: Pull asset translations from Crowdin
@@ -96,3 +96,4 @@ MonoBehaviour:
     flag_cleanup_mode: Cleanup mode
     list_branches: Select Crowdin branch
     button_branches_refresh: Refresh
+    update_option_selector: Update Option

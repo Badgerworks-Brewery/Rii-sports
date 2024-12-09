@@ -30,7 +30,7 @@ public class BowlingPin : MonoBehaviour
         transform.rotation = initialRotation;
 
         rb.isKinematic = false;
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
     }
 

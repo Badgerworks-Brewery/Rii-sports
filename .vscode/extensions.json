@@ -1,5 +1,6 @@
 {
-    "recommendations": [
-      "visualstudiotoolsforunity.vstuc"
-    ]
+  "recommendations": [
+    "visualstudiotoolsforunity.vstuc",
+    "ms-azuretools.vscode-docker"
+  ]
 }

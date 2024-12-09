@@ -9,3 +9,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 161631
+  packageName: FMOD for Unity
+  packageVersion: 2.02.24
+  assetPath: Assets/Plugins/FMOD/src/ParamRefAttribute.cs
+  uploadId: 707645

@@ -93,3 +93,12 @@ crashlytics-build.properties
 fmod_editor.log
 
 /.erp
+/Assets/Samples
+/CI/teamcity_data
+/CI/teamcity_logs
+/rii-sports(fmod)/rii-sports/Metadata/AudioFile
+/rii-sports(fmod)/rii-sports/Metadata/Asset
+/rii-sports(fmod)/rii-sports/Metadata/DataFile
+/rii-sports(fmod)/rii-sports/Build
+/rii-sports(fmod)/rii-sports/.cache
+/rii-sports(fmod)/rii-sports/.unsaved
