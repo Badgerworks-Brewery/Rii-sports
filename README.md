@@ -1,6 +1,6 @@
 # Rii-sports
 
-Rii-sports is an open-source project aiming to recreate and enhance the classic **Wii Sports** and **Wii Fit** games for modern platforms. By leveraging the original game code and assets through emulation, we strive to offer an improved and nostalgic gaming experience that surpasses modern alternatives like Switch Sports.
+Rii-sports is an open-source project aiming to recreate and enhance the classic **Wii Sports** and **Wii Fit** games for modern platforms. By leveraging the original game code and assets through emulation, decompilation, recompilation and imitation, we strive to offer an improved and nostalgic gaming experience that surpasses modern alternatives like Nintendo's Switch Sports (which may also be added as the years go by).
 
 ## Project Goal
 
@@ -8,7 +8,7 @@ Our goal is to port the beloved games from the Wii Sports and Wii Fit series to 
 
 ## Technologies
 
-The project is being developed using a modern game engine such as **Unity** or **Godot** (final engine to be determined since Godot's portability and modular nature as an open source engine seemed interesting, but it's most likely Unity since Unity is just the better engine). It utilizes the Wii Sports decompilation ([doldecomp/ogws](https://github.com/doldecomp/ogws)) and references emulators like **Dolphin**, **Cemu**, or **Suyu** to help run the original game code. To avoid legal issues, users must provide their own ROM files for the games.
+The project is being developed using a modern game engine such as **Unity** or **Godot** (final engine to be determined since Godot's portability and modular nature as an open source engine seems interesting, but it's most likely Unity since Unity is just the better engine). It utilizes the Wii Sports decompilation ([doldecomp/ogws](https://github.com/doldecomp/ogws)) and references emulators like **Dolphin**, **Cemu**, or **Suyu** to help run the original game code. To avoid legal issues, users must provide their own ROM files for the games.
 
 ## Getting Started
 
