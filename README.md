@@ -1,6 +1,6 @@
-# Rii-sports
+# Rii Sports
 
-Rii-sports is an open-source project aiming to recreate and enhance the classic **Wii Sports** and **Wii Fit** games for modern platforms. By leveraging the original game code and assets through emulation, decompilation, recompilation and imitation, we strive to offer an improved and nostalgic gaming experience that surpasses modern alternatives like Nintendo's Switch Sports (which may also be added as the years go by).
+Rii Sports is an open-source project aiming to recreate and enhance the classic **Wii Sports** and **Wii Fit** games for modern platforms. By leveraging the original game code and assets through emulation, decompilation, recompilation and imitation, we strive to offer an improved and nostalgic gaming experience that surpasses modern alternatives like Nintendo's Switch Sports (which may also be added as the years go by).
 
 ## Project Goal
 
@@ -12,7 +12,7 @@ The project is being developed using a modern game engine such as **Unity** or *
 
 ## Getting Started
 
-To get started with Rii-sports, follow these steps:
+To get started with Rii Sports, follow these steps:
 
 1. **Clone the repository**:
    ```bash
@@ -35,7 +35,7 @@ To get started with Rii-sports, follow these steps:
 
 ## Contributing
 
-We are currently in a *Help-Wanted*-induced hiatus so we welcome contributions from anyone! Whether you're a developer, designer, or tester, your help is valuable in making Rii-sports the best it can be. 
+We are currently in a *Help-Wanted*-induced hiatus so we welcome contributions from anyone! Whether you're a developer, designer, or tester, your help is valuable in making Rii Sports the best it can be. 
 
 ## Legal Disclaimer
 
