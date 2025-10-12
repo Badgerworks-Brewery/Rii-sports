@@ -14,6 +14,10 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] private DSUClient dsuClient;
     [SerializeField] private MotionGestureDetector gestureDetector;
     
+    [Header("Control Accessories")]
+    [SerializeField] private GamepadInputAccessory gamepadAccessory;
+    [SerializeField] private ControllerVisualization controllerVisualization;
+    
     [Header("Bowling Settings")]
     [SerializeField] private float motionThrowForceMultiplier = 1.0f;
     [SerializeField] private Vector3 motionThrowDirection = Vector3.forward;
@@ -65,6 +69,9 @@ public class PlayerInputManager : MonoBehaviour
             }
         }
         
+        // Initialize control accessories
+        InitializeControlAccessories();
+        
         // Subscribe to events
         if (dsuClient != null)
         {
@@ -81,6 +88,45 @@ public class PlayerInputManager : MonoBehaviour
         
         if (debugInput)
             Debug.Log("Motion controls initialized");
+    }
+    
+    private void InitializeControlAccessories()
+    {
+        // Find or create gamepad accessory
+        if (gamepadAccessory == null)
+        {
+            gamepadAccessory = FindObjectOfType<GamepadInputAccessory>();
+            if (gamepadAccessory == null)
+            {
+                GameObject gamepadGO = new GameObject("Gamepad Input Accessory");
+                gamepadAccessory = gamepadGO.AddComponent<GamepadInputAccessory>();
+                gamepadGO.transform.SetParent(transform);
+            }
+        }
+        
+        // Find or create controller visualization
+        if (controllerVisualization == null)
+        {
+            controllerVisualization = FindObjectOfType<ControllerVisualization>();
+            if (controllerVisualization == null)
+            {
+                GameObject visualGO = new GameObject("Controller Visualization");
+                controllerVisualization = visualGO.AddComponent<ControllerVisualization>();
+                visualGO.transform.SetParent(transform);
+            }
+        }
+        
+        // Subscribe to gamepad events
+        if (gamepadAccessory != null)
+        {
+            gamepadAccessory.OnGamepadThrow += HandleGamepadThrow;
+            gamepadAccessory.OnGamepadAim += HandleGamepadAim;
+            gamepadAccessory.OnGamepadPower += HandleGamepadPower;
+            gamepadAccessory.OnGamepadMenu += HandleGamepadMenu;
+        }
+        
+        if (debugInput)
+            Debug.Log("Control accessories initialized");
     }
     
     private void HandleKeyboardInput()
@@ -225,6 +271,48 @@ public class PlayerInputManager : MonoBehaviour
             Debug.Log("Motion controls disconnected");
     }
     
+    // Gamepad event handlers
+    private void HandleGamepadThrow(Vector3 direction, float force)
+    {
+        if (debugInput)
+            Debug.Log($"Gamepad throw - Direction: {direction}, Force: {force}");
+        
+        // Calculate throw parameters similar to motion controls
+        Vector3 throwDirection = direction * motionThrowForceMultiplier;
+        float throwForce = force * motionThrowForceMultiplier;
+        
+        // Trigger throw
+        TriggerMotionThrow(throwDirection, throwForce);
+        
+        // Also trigger general player hit for compatibility
+        PlayerHit();
+    }
+    
+    private void HandleGamepadAim(Vector2 aimInput)
+    {
+        if (debugInput && aimInput.magnitude > 0.1f)
+            Debug.Log($"Gamepad aim input: {aimInput}");
+        
+        // Store aim input for use in throw calculations
+        // This could be used to modify throw direction
+    }
+    
+    private void HandleGamepadPower(float powerInput)
+    {
+        if (debugInput && powerInput > 0.1f)
+            Debug.Log($"Gamepad power input: {powerInput}");
+        
+        // Power input could be used for charge-based throwing mechanics
+    }
+    
+    private void HandleGamepadMenu()
+    {
+        if (debugInput)
+            Debug.Log("Gamepad menu button pressed");
+        
+        // Could trigger pause menu or settings
+    }
+    
     private void OnDestroy()
     {
         // Unsubscribe from events
@@ -240,6 +328,15 @@ public class PlayerInputManager : MonoBehaviour
             gestureDetector.OnGestureDetected -= HandleGestureDetected;
             gestureDetector.OnBowlingSwingDetected -= HandleBowlingSwing;
         }
+        
+        // Unsubscribe from gamepad events
+        if (gamepadAccessory != null)
+        {
+            gamepadAccessory.OnGamepadThrow -= HandleGamepadThrow;
+            gamepadAccessory.OnGamepadAim -= HandleGamepadAim;
+            gamepadAccessory.OnGamepadPower -= HandleGamepadPower;
+            gamepadAccessory.OnGamepadMenu -= HandleGamepadMenu;
+        }
     }
     
     // Public getters for other systems
@@ -247,6 +344,11 @@ public class PlayerInputManager : MonoBehaviour
     public DSUMotionData GetCurrentMotionData() => currentMotionData;
     public Vector3 GetMotionThrowDirection() => motionThrowDirection;
     public bool IsMotionControlsEnabled => enableMotionControls;
+    
+    // Control accessories getters
+    public GamepadInputAccessory GetGamepadAccessory() => gamepadAccessory;
+    public ControllerVisualization GetControllerVisualization() => controllerVisualization;
+    public bool IsGamepadConnected => gamepadAccessory != null && gamepadAccessory.IsGamepadConnected;
     
     // Public methods for external control
     public void EnableMotionControls(bool enable)

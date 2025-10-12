@@ -2,6 +2,25 @@
 
 Rii Sports is an open-source project aiming to recreate and enhance the classic **Wii Sports** and **Wii Fit** games for modern platforms. By leveraging the original game code and assets through emulation, decompilation, recompilation and imitation, we strive to offer an improved and nostalgic gaming experience that surpasses modern alternatives like Nintendo's Switch Sports (which may also be added as the years go by).
 
+## 🎮 New Feature: Control Accessories
+
+Rii Sports now includes a comprehensive **Control Accessories** system that enhances the gaming experience with multiple input options and advanced control management!
+
+### Enhanced Input Options
+- **Traditional Gamepad Support**: Xbox, PlayStation, and generic controllers with haptic feedback
+- **Controller Visualization**: Real-time visual feedback showing controller status and orientation
+- **Advanced UI System**: Comprehensive control panel for managing all input devices
+- **Calibration Wizard**: Step-by-step setup for optimal motion control performance
+
+### Key Features
+- **Multi-Controller Support**: Seamlessly switch between motion controls, gamepad, and keyboard
+- **Visual Feedback**: See your controller status, battery level, and connection quality
+- **Haptic Feedback**: Controller vibration for enhanced immersion
+- **Advanced Calibration**: Precision tuning for motion controls
+- **Accessibility Options**: Multiple input methods for different user needs
+
+For detailed setup instructions, see our [Control Accessories Guide](docs/Control_Accessories_Guide.md).
+
 ## 🎮 New Feature: DSU Motion Controls
 
 Rii Sports now supports **DSU (Cemuhook Motion Provider protocol)** for authentic Wii Sports-style motion controls! Use your smartphone, DualShock 4 controller, or other motion-capable devices as a Wiimote for realistic bowling, tennis, and other sports gameplay.
@@ -25,6 +44,7 @@ Our goal is to port the beloved games from the Wii Sports and Wii Fit series to 
 ### ✅ Currently Implemented
 - **Bowling Game**: Physics-based bowling with pin collision
 - **Motion Controls**: DSU protocol support for authentic Wii-style motion input
+- **Control Accessories**: Enhanced input system with gamepad support, controller visualization, and advanced UI
 - **Keyboard Controls**: Traditional keyboard input as fallback
 - **Event System**: Modular event-driven architecture
 - **Audio System**: Sound effects and music management
@@ -106,6 +126,13 @@ For the best motion control experience:
 - **Bowling**: Natural bowling swing motion
 - **Tennis**: Racket swing motions (coming soon)
 - **Golf**: Club swing motions (coming soon)
+
+### Gamepad Controls (New!)
+- **A/X Button (Hold)**: Charge throw power
+- **Left Stick**: Aim direction
+- **Right Trigger**: Alternative power control
+- **Start/Options**: Open control accessories panel
+- **Haptic Feedback**: Controller vibration for actions
 
 ## Configuration
 
