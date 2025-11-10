@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+#if !UNITY_WEBGL || UNITY_EDITOR
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
+#endif
+using System.Text;
 using UnityEngine;
 
 namespace RiiSports.Integration.Network
@@ -11,6 +13,7 @@ namespace RiiSports.Integration.Network
     /// <summary>
     /// Online multiplayer integration for Wii Sports
     /// Based on wii-otn (Wii Online Tennis) architecture
+    /// Note: Full UDP networking not available on WebGL builds
     /// </summary>
     public class OnlineMultiplayer : MonoBehaviour
     {
@@ -31,12 +34,14 @@ namespace RiiSports.Integration.Network
         private List<NetworkPlayer> connectedPlayers = new List<NetworkPlayer>();
         private NetworkPlayer localPlayer;
         
-        // UDP networking
+#if !UNITY_WEBGL || UNITY_EDITOR
+        // UDP networking (not available on WebGL)
         private UdpClient udpClient;
         private Thread receiveThread;
         private bool isReceiving = false;
         private Queue<byte[]> receivedPackets = new Queue<byte[]>();
         private object packetLock = new object();
+#endif
 
         private void Awake()
         {
@@ -93,6 +98,10 @@ namespace RiiSports.Integration.Network
         /// </summary>
         public void Connect()
         {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            Debug.LogWarning("[Network] UDP networking not supported on WebGL platform");
+            return;
+#else
             if (!enableOnlinePlay)
             {
                 Debug.LogWarning("[Network] Online play is disabled");
@@ -138,8 +147,10 @@ namespace RiiSports.Integration.Network
                 isConnected = false;
                 CleanupNetworking();
             }
+#endif
         }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
         private void ReceiveData()
         {
             while (isReceiving)
@@ -169,7 +180,9 @@ namespace RiiSports.Integration.Network
                 }
             }
         }
+#endif
 
+#if !UNITY_WEBGL || UNITY_EDITOR
         private void SendConnectionRequest()
         {
             // Create connection packet
@@ -182,6 +195,7 @@ namespace RiiSports.Integration.Network
 
             SendPacket(packet);
         }
+#endif
 
         /// <summary>
         /// Disconnect from server
@@ -193,6 +207,7 @@ namespace RiiSports.Integration.Network
                 return;
             }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
             try
             {
                 if (debugMode)
@@ -222,8 +237,13 @@ namespace RiiSports.Integration.Network
             {
                 Debug.LogError($"[Network] Disconnection error: {e.Message}");
             }
+#else
+            isConnected = false;
+            connectedPlayers.Clear();
+#endif
         }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
         private void CleanupNetworking()
         {
             isReceiving = false;
@@ -239,6 +259,7 @@ namespace RiiSports.Integration.Network
                 udpClient = null;
             }
         }
+#endif
 
         /// <summary>
         /// Send player input to server
@@ -250,6 +271,7 @@ namespace RiiSports.Integration.Network
                 return;
             }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
             try
             {
                 var packet = new Dictionary<string, object>
@@ -273,6 +295,7 @@ namespace RiiSports.Integration.Network
             {
                 Debug.LogError($"[Network] Failed to send input: {e.Message}");
             }
+#endif
         }
 
         /// <summary>
@@ -285,6 +308,7 @@ namespace RiiSports.Integration.Network
                 return;
             }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
             // Process packets on main thread
             lock (packetLock)
             {
@@ -294,8 +318,10 @@ namespace RiiSports.Integration.Network
                     ProcessReceivedPacket(packet);
                 }
             }
+#endif
         }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
         private void ProcessReceivedPacket(byte[] data)
         {
             try
@@ -316,6 +342,7 @@ namespace RiiSports.Integration.Network
                 Debug.LogError($"[Network] Packet processing error: {e.Message}");
             }
         }
+#endif
 
         /// <summary>
         /// Synchronize game state across network
@@ -327,6 +354,7 @@ namespace RiiSports.Integration.Network
                 return;
             }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
             try
             {
                 var packet = new Dictionary<string, object>
@@ -348,8 +376,10 @@ namespace RiiSports.Integration.Network
             {
                 Debug.LogError($"[Network] State sync error: {e.Message}");
             }
+#endif
         }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
         private void SendPacket(Dictionary<string, object> data)
         {
             if (udpClient == null || !isConnected)
@@ -386,6 +416,7 @@ namespace RiiSports.Integration.Network
         {
             return $"{v.x},{v.y},{v.z}";
         }
+#endif
 
         private void Update()
         {
