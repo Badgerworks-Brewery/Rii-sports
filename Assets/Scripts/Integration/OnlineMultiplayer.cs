@@ -507,13 +507,23 @@ namespace RiiSports.Integration.Network
     /// </summary>
     public static class Matchmaking
     {
+        private static List<GameSession> activeSessions = new List<GameSession>();
+        private static object sessionLock = new object();
+
         /// <summary>
         /// Find available game sessions
         /// </summary>
         public static List<GameSession> FindSessions(string gameMode)
         {
-            // Matchmaking logic will be implemented
-            return new List<GameSession>();
+            lock (sessionLock)
+            {
+                // Filter sessions by game mode and availability
+                return activeSessions.FindAll(s => 
+                    s.GameMode == gameMode && 
+                    s.IsPublic && 
+                    s.CurrentPlayers < s.MaxPlayers
+                );
+            }
         }
 
         /// <summary>
@@ -521,14 +531,21 @@ namespace RiiSports.Integration.Network
         /// </summary>
         public static GameSession CreateSession(string gameMode, int maxPlayers)
         {
-            return new GameSession
+            var session = new GameSession
             {
                 SessionId = Guid.NewGuid().ToString("N"),
                 GameMode = gameMode,
                 MaxPlayers = maxPlayers,
-                CurrentPlayers = 0,
+                CurrentPlayers = 1,
                 CreatedTime = DateTime.UtcNow
             };
+
+            lock (sessionLock)
+            {
+                activeSessions.Add(session);
+            }
+
+            return session;
         }
 
         /// <summary>
@@ -536,8 +553,48 @@ namespace RiiSports.Integration.Network
         /// </summary>
         public static bool JoinSession(string sessionId)
         {
-            // Join logic will be implemented
-            return false;
+            lock (sessionLock)
+            {
+                var session = activeSessions.Find(s => s.SessionId == sessionId);
+                if (session != null && session.CurrentPlayers < session.MaxPlayers)
+                {
+                    session.CurrentPlayers++;
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Leave a session
+        /// </summary>
+        public static bool LeaveSession(string sessionId)
+        {
+            lock (sessionLock)
+            {
+                var session = activeSessions.Find(s => s.SessionId == sessionId);
+                if (session != null)
+                {
+                    session.CurrentPlayers--;
+                    if (session.CurrentPlayers <= 0)
+                    {
+                        activeSessions.Remove(session);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Clear all sessions (for cleanup/testing)
+        /// </summary>
+        public static void ClearSessions()
+        {
+            lock (sessionLock)
+            {
+                activeSessions.Clear();
+            }
         }
     }
 
