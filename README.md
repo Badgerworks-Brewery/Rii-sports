@@ -45,16 +45,18 @@ Our goal is to port the beloved games from the Wii Sports and Wii Fit series to 
 - **Bowling Game**: Physics-based bowling with pin collision
 - **Motion Controls**: DSU protocol support for authentic Wii-style motion input
 - **Control Accessories**: Enhanced input system with gamepad support, controller visualization, and advanced UI
+- **Integration Framework**: OGWS, Dolphin, and online multiplayer integration layers
 - **Keyboard Controls**: Traditional keyboard input as fallback
 - **Event System**: Modular event-driven architecture
 - **Audio System**: Sound effects and music management
 - **Scene Management**: Loading screens and scene transitions
 
 ### 🚧 In Development
-- **Tennis**: Racket swing detection and ball physics
-- **Golf**: Club swing analysis and ball trajectory
-- **Boxing**: Punch detection and combo system
-- **Baseball**: Batting and pitching mechanics
+- **Tennis**: Racket swing detection and ball physics (framework ready)
+- **Golf**: Club swing analysis and ball trajectory (framework ready)
+- **Boxing**: Punch detection and combo system (framework ready)
+- **Baseball**: Batting and pitching mechanics (framework ready)
+- **OGWS Native Integration**: Porting C++ code from Wii Sports decompilation
 
 ### 📋 Planned Features
 - **Multiplayer Support**: Local and online multiplayer
@@ -67,11 +69,21 @@ Our goal is to port the beloved games from the Wii Sports and Wii Fit series to 
 
 The project is being developed using **Unity** as the primary game engine. It utilizes the Wii Sports decompilation ([doldecomp/ogws](https://github.com/doldecomp/ogws)) and references emulators like **Dolphin**, **Cemu**, or **Suyu** to help run the original game code. To avoid legal issues, users must provide their own ROM files for the games.
 
+### Integration Framework
+- **OGWS Integration**: Direct interface to Wii Sports decompiled code
+- **Dolphin Emulation Layer**: GameCube/Wii graphics and memory abstraction
+- **Online Multiplayer**: Network play based on wii-otn architecture
+- **Sport Modules**: Tennis, Golf, Boxing, Baseball, and Wii Fit base classes
+- **Cross-System Coordination**: Unified API through IntegrationManager
+
+For detailed information, see [INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md).
+
 ### Motion Control Technology
 - **DSU Protocol**: UDP-based motion data transmission
 - **Gesture Recognition**: AI-powered motion pattern detection
 - **Multi-device Support**: Smartphones, controllers, and custom hardware
 - **Real-time Processing**: Low-latency motion interpretation
+- **Wiimote Translation**: Dolphin-based motion calibration
 
 ## Getting Started
 
