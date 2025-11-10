@@ -114,10 +114,51 @@ namespace RiiSports.Tests.Integration
         [Test]
         public void TestMemoryManager_ReadMemory()
         {
+            MemoryManager.Initialize();
             byte[] data = MemoryManager.ReadMemory(0x80000000, 256);
             
             Assert.IsNotNull(data);
             Assert.AreEqual(256, data.Length);
+        }
+
+        [Test]
+        public void TestMemoryManager_ReadWriteU32()
+        {
+            MemoryManager.Initialize();
+            uint testValue = 0x12345678;
+            uint address = 0x80000100;
+
+            MemoryManager.WriteU32(address, testValue);
+            uint readValue = MemoryManager.ReadU32(address);
+
+            Assert.AreEqual(testValue, readValue);
+        }
+
+        [Test]
+        public void TestMemoryManager_WriteAndRead()
+        {
+            MemoryManager.Initialize();
+            byte[] testData = new byte[] { 0x01, 0x02, 0x03, 0x04 };
+            uint address = 0x80000200;
+
+            MemoryManager.WriteMemory(address, testData);
+            byte[] readData = MemoryManager.ReadMemory(address, testData.Length);
+
+            Assert.AreEqual(testData.Length, readData.Length);
+            for (int i = 0; i < testData.Length; i++)
+            {
+                Assert.AreEqual(testData[i], readData[i]);
+            }
+        }
+
+        [Test]
+        public void TestDisplayListProcessor_GetCommandSize()
+        {
+            DisplayListProcessor.Initialize();
+            
+            Assert.AreEqual(1, DisplayListProcessor.GetCommandSize(0x00)); // NOP
+            Assert.AreEqual(5, DisplayListProcessor.GetCommandSize(0x61)); // LOAD_BP_REG
+            Assert.AreEqual(1, DisplayListProcessor.GetCommandSize(0x98)); // TRIANGLES
         }
 
         [Test]

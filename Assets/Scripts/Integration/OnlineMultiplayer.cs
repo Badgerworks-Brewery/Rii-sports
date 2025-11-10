@@ -1,5 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
 using UnityEngine;
 
 namespace RiiSports.Integration.Network
@@ -26,6 +30,13 @@ namespace RiiSports.Integration.Network
         private bool isConnected = false;
         private List<NetworkPlayer> connectedPlayers = new List<NetworkPlayer>();
         private NetworkPlayer localPlayer;
+        
+        // UDP networking
+        private UdpClient udpClient;
+        private Thread receiveThread;
+        private bool isReceiving = false;
+        private Queue<byte[]> receivedPackets = new Queue<byte[]>();
+        private object packetLock = new object();
 
         private void Awake()
         {
@@ -101,8 +112,20 @@ namespace RiiSports.Integration.Network
                     Debug.Log($"[Network] Connecting to {serverAddress}:{serverPort}...");
                 }
 
-                // Connection logic will be implemented with actual networking library
+                // Initialize UDP client
+                udpClient = new UdpClient();
+                udpClient.Connect(serverAddress, serverPort);
+
+                // Start receive thread
+                isReceiving = true;
+                receiveThread = new Thread(ReceiveData);
+                receiveThread.IsBackground = true;
+                receiveThread.Start();
+
                 isConnected = true;
+
+                // Send connection request
+                SendConnectionRequest();
 
                 if (debugMode)
                 {
@@ -113,7 +136,51 @@ namespace RiiSports.Integration.Network
             {
                 Debug.LogError($"[Network] Connection failed: {e.Message}");
                 isConnected = false;
+                CleanupNetworking();
             }
+        }
+
+        private void ReceiveData()
+        {
+            while (isReceiving)
+            {
+                try
+                {
+                    IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                    byte[] data = udpClient.Receive(ref remoteEndPoint);
+
+                    lock (packetLock)
+                    {
+                        receivedPackets.Enqueue(data);
+                    }
+                }
+                catch (SocketException)
+                {
+                    // Socket closed, exit thread
+                    break;
+                }
+                catch (Exception e)
+                {
+                    if (isReceiving && debugMode)
+                    {
+                        Debug.LogError($"[Network] Receive error: {e.Message}");
+                    }
+                    break;
+                }
+            }
+        }
+
+        private void SendConnectionRequest()
+        {
+            // Create connection packet
+            var packet = new Dictionary<string, object>
+            {
+                { "type", "connect" },
+                { "playerId", localPlayer.PlayerId },
+                { "playerName", localPlayer.PlayerName }
+            };
+
+            SendPacket(packet);
         }
 
         /// <summary>
@@ -133,7 +200,16 @@ namespace RiiSports.Integration.Network
                     Debug.Log("[Network] Disconnecting from server...");
                 }
 
-                // Disconnection logic will be implemented
+                // Send disconnection packet
+                var packet = new Dictionary<string, object>
+                {
+                    { "type", "disconnect" },
+                    { "playerId", localPlayer.PlayerId }
+                };
+                SendPacket(packet);
+
+                CleanupNetworking();
+
                 isConnected = false;
                 connectedPlayers.Clear();
 
@@ -148,6 +224,22 @@ namespace RiiSports.Integration.Network
             }
         }
 
+        private void CleanupNetworking()
+        {
+            isReceiving = false;
+
+            if (receiveThread != null && receiveThread.IsAlive)
+            {
+                receiveThread.Join(1000); // Wait up to 1 second
+            }
+
+            if (udpClient != null)
+            {
+                udpClient.Close();
+                udpClient = null;
+            }
+        }
+
         /// <summary>
         /// Send player input to server
         /// </summary>
@@ -158,10 +250,28 @@ namespace RiiSports.Integration.Network
                 return;
             }
 
-            // Network send logic will be implemented
-            if (debugMode)
+            try
             {
-                Debug.Log($"[Network] Sending input: {input.InputType}");
+                var packet = new Dictionary<string, object>
+                {
+                    { "type", "input" },
+                    { "playerId", input.PlayerId },
+                    { "inputType", input.InputType.ToString() },
+                    { "position", SerializeVector3(input.Position) },
+                    { "velocity", SerializeVector3(input.Velocity) },
+                    { "timestamp", input.Timestamp }
+                };
+
+                SendPacket(packet);
+
+                if (debugMode)
+                {
+                    Debug.Log($"[Network] Sent input: {input.InputType}");
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[Network] Failed to send input: {e.Message}");
             }
         }
 
@@ -175,7 +285,36 @@ namespace RiiSports.Integration.Network
                 return;
             }
 
-            // Network receive logic will be implemented
+            // Process packets on main thread
+            lock (packetLock)
+            {
+                while (receivedPackets.Count > 0)
+                {
+                    byte[] packet = receivedPackets.Dequeue();
+                    ProcessReceivedPacket(packet);
+                }
+            }
+        }
+
+        private void ProcessReceivedPacket(byte[] data)
+        {
+            try
+            {
+                // Parse packet (simplified - actual implementation would use proper serialization)
+                string message = Encoding.UTF8.GetString(data);
+                
+                if (debugMode)
+                {
+                    Debug.Log($"[Network] Received: {message.Substring(0, Mathf.Min(50, message.Length))}...");
+                }
+
+                // Process different packet types
+                // This would be expanded with actual packet parsing
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[Network] Packet processing error: {e.Message}");
+            }
         }
 
         /// <summary>
@@ -188,12 +327,64 @@ namespace RiiSports.Integration.Network
                 return;
             }
 
-            if (debugMode)
+            try
             {
-                Debug.Log("[Network] Synchronizing game state");
+                var packet = new Dictionary<string, object>
+                {
+                    { "type", "gameState" },
+                    { "gameMode", state.GameMode },
+                    { "currentRound", state.CurrentRound },
+                    { "gameTime", state.GameTime }
+                };
+
+                SendPacket(packet);
+
+                if (debugMode)
+                {
+                    Debug.Log("[Network] Game state synchronized");
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[Network] State sync error: {e.Message}");
+            }
+        }
+
+        private void SendPacket(Dictionary<string, object> data)
+        {
+            if (udpClient == null || !isConnected)
+            {
+                return;
             }
 
-            // State synchronization logic will be implemented
+            try
+            {
+                // Simple JSON-like serialization (would use proper serialization in production)
+                string json = SimpleJsonSerialize(data);
+                byte[] bytes = Encoding.UTF8.GetBytes(json);
+                
+                udpClient.Send(bytes, bytes.Length);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[Network] Send packet error: {e.Message}");
+            }
+        }
+
+        private string SimpleJsonSerialize(Dictionary<string, object> data)
+        {
+            // Very basic serialization - would use JsonUtility or similar in production
+            var parts = new List<string>();
+            foreach (var kvp in data)
+            {
+                parts.Add($"\"{kvp.Key}\":\"{kvp.Value}\"");
+            }
+            return "{" + string.Join(",", parts) + "}";
+        }
+
+        private string SerializeVector3(Vector3 v)
+        {
+            return $"{v.x},{v.y},{v.z}";
         }
 
         private void Update()
@@ -205,6 +396,14 @@ namespace RiiSports.Integration.Network
         }
 
         private void OnDestroy()
+        {
+            if (isConnected)
+            {
+                Disconnect();
+            }
+        }
+
+        private void OnApplicationQuit()
         {
             if (isConnected)
             {
