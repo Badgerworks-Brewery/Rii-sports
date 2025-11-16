@@ -7,12 +7,16 @@ namespace RiiSports.OGWS
     /// <summary>
     /// Integration layer for OGWS (doldecomp/ogws) functionality
     /// Provides access to Wii Sports decompiled code from Unity
+    /// Source: https://github.com/doldecomp/ogws
     /// </summary>
     public class OGWSIntegration : MonoBehaviour
     {
         [Header("OGWS Configuration")]
         [SerializeField] private bool enableOGWSIntegration = true;
         [SerializeField] private bool debugMode = false;
+        
+        private static OGWSIntegration instance;
+        public static OGWSIntegration Instance => instance;
 
         // Native function imports (these would be implemented in the compiled OGWS objects)
         [DllImport("ogws_native")]
@@ -23,6 +27,17 @@ namespace RiiSports.OGWS
 
         [DllImport("ogws_native")]
         private static extern void EGG_AnalyzeDL_Reset();
+
+        private void Awake()
+        {
+            if (instance != null && instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
         /// <summary>
         /// Initialize OGWS integration
